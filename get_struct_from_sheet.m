@@ -1,6 +1,11 @@
-function init = get_init_vals()
+function init = get_struct_from_sheet(name,sheet)
 
-    T = xlsread('points.xlsx','Front Suspension');
+    %name = 'points.xlsx'
+    %sheet = 'Front Suspension'
+    T = xlsread(name,sheet);
+    
+    init_camber_deg = -0.2;
+    
     % y is trackwidth, x is wheel base
     chas_lowfor = T(13,1:3);
     chas_lowaft = T(14,1:3);
@@ -28,9 +33,9 @@ function init = get_init_vals()
     lk = norm(AB);
 
     C = (chas_upfor+chas_upaft)/2;
-    chas_upper_line = (chas_upfor -O) - (chas_upaft - O)
+    chas_upper_line = (chas_upfor -O) - (chas_upaft - O);
     zeta_deg = rad2deg(atan(chas_upper_line(2)/chas_upper_line(1)));
-    phi_deg = rad2deg(atan(chas_upper_line(3)/chas_upper_line(1)))
+    phi_deg = rad2deg(atan(chas_upper_line(3)/chas_upper_line(1)));
 
     OC = C-O;
     OB = up_upp - O;
@@ -71,13 +76,18 @@ function init = get_init_vals()
     init.lh = lh;
     init.phi_deg = phi_deg;
     init.zeta_deg = zeta_deg;
-    init.init_camber_deg = -0.2;
+    init.init_camber_deg = init_camber_deg;
     init.lhub = 4;
     init.co = 0;
     init.theta_0 = theta_0;
     init.Rw = Rw;
     init.O = O_s;
-
+    %theta_0, ll,ex,ey,ez,bx,by,bz,cx,cy,cz,phi_deg,zeta_deg,camber_deg
+    init.init_opt_vals = [...
+        theta_0,ll,EO_s(1),EO_s(2),EO_s(3),OB_s(1),OB_s(2),OB_s(3),OC_s(1),...
+        OC_s(2),OC_s(3),phi_deg, zeta_deg, init_camber_deg];
+        
+    
     function a = swap_coords(a)
         temp = a(2);
         a(2) = a(1);
