@@ -12,7 +12,7 @@ function motion = kin4(input, testing_e)
     Rw = input.Rw; %effective radius of tire
     g = input.OC(1); %len perp to Y
     f = input.OC(2);
-    poly_for_toe = input.OC(3);
+    p = input.OC(3);
     E0 = input.EO;
     F0 = input.FO;
     e0 = deg2rad(input.init_camber_deg);
@@ -28,13 +28,13 @@ function motion = kin4(input, testing_e)
     for i = 1:length(theta)
         t = theta(i);
         syms x
-        eqn = lk^2 == (g+lu*cos(x)*cos(zeta) + lu*sin(x)*sin(phi)*sin(zeta) - ll*cos(t))^2 + (f+lu*cos(x)*sin(zeta)-lu*sin(x)*sin(phi)*cos(zeta))^2 + (poly_for_toe+lu*sin(x)*cos(phi)-ll*sin(t))^2;
-        desired_toe = vpasolve(eqn,x);
-        chi(i) = desired_toe;
+        eqn = lk^2 == (g+lu*cos(x)*cos(zeta) + lu*sin(x)*sin(phi)*sin(zeta) - ll*cos(t))^2 + (f+lu*cos(x)*sin(zeta)-lu*sin(x)*sin(phi)*cos(zeta))^2 + (p+lu*sin(x)*cos(phi)-ll*sin(t))^2;
+        y = vpasolve(eqn,x);
+        chi(i) = y;
     end
 
     OA = ll*[cos(theta) zeros(size(theta)) sin(theta)];
-    OC = [g f poly_for_toe];
+    OC = [g f p];
     CB = lu*[cos(chi)*cos(zeta) + sin(chi)*sin(phi)*sin(zeta) ...
         cos(chi)*sin(zeta)-sin(chi)*sin(phi)*cos(zeta) ...
         sin(chi)*cos(phi)];
