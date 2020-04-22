@@ -57,6 +57,7 @@ function motion = kin4(input, testing_e)
         E = testing_e;
     end
     
+    disp(E)
 
     e_hub0 = [cos(e0) 0 -sin(e0)];
 

@@ -51,5 +51,6 @@ function plot_results(motion)
     ylabel('track variation (in)')
     xlabel('wheel travel')
 
+    saveas(gcf,'output.png')
 
 end
