@@ -26,7 +26,15 @@ motion = kin4(input_struct, E);
 
 plot_results(motion)
 
-% Some constraints calculated
+% Ouputs specified for HEEDS
+wheel_travel = motion.wheel_travel;
+track_variation = motion.track_variation;
+camber = motion.camber;
+caster = motion.caster;
+kpi_angle = motion.kpi_angle;
+toe = motion.toe;
+
+% Some constraints calculated for HEEDS
 wheel_rad_safe = 9/2;
 % bx should be with 2 of ax, i.e track width direction upper and lower ball
 % joint should be somewhat close, should be negative
