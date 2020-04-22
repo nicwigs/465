@@ -1,4 +1,5 @@
 
+clear all
 tic
 % init values come from design output
 fsae = get_struct_from_sheet('points.xlsx','Front Suspension');
@@ -17,6 +18,22 @@ cz = fsae.init_opt_vals(11);
 phi_deg = fsae.init_opt_vals(12);
 zeta_deg = fsae.init_opt_vals(13);
 camber_deg = fsae.init_opt_vals(14);
+
+% Save time in heeds - dont read excel just write this
+% theta_0 = -0.3941;
+% ll = 15.9832;
+% ex = 16.3048;
+% ey = 2.2250;
+% ez = 1.4101;
+% bx = 15.4548;
+% by = -0.3750;
+% bz = 6.7601;
+% cx = 3.0008;
+% cy = 0.2450;
+% cz = 5.4351;
+% phi_deg = 1.2519;
+% zeta_deg = 0;
+% camber_deg = -0.2000;
 
 %fsae = get_init_struct(-0.3941,15.9832,16.3048,2.2250,1.4101,15.4548,-0.3750,6.7601,3.0008,0.2450,5.4351,1.2519,0,-0.2000);
 

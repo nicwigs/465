@@ -9,12 +9,14 @@ function plot_results(motion)
     
     %csvwrite('desired_toe.csv',[motion.wheel_travel,desired_toe])
 
-    for_fitting_camber = [motion.wheel_travel(1) 0 motion.wheel_travel(end)];
-    for_fitting_camber_y = [-1 -0.25 -3];
+%     for_fitting_camber = [motion.wheel_travel(1) -2.5  -2 -1 0 1 2 2.5 motion.wheel_travel(end)];
+%     for_fitting_camber_y = [0 0 0 -.5 -3 -.5 0 0 0];
+    for_fitting_camber = [motion.wheel_travel(1)  0 motion.wheel_travel(end)];
+    for_fitting_camber_y = [0 -3 0];
     poly_for_camber = polyfit(for_fitting_camber, for_fitting_camber_y, 2);
     desired_camber = polyval(poly_for_camber, motion.wheel_travel);
 
-    %csvwrite('desired_camber.csv',[motion.wheel_travel,desired_camber])
+    %csvwrite('desired_camber_3.csv',[motion.wheel_travel,desired_camber])
     
     % Plot
     subplot(2,3,1)
