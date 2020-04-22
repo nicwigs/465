@@ -52,7 +52,12 @@ function motion = kin4(input, testing_e)
 
     % Commented to save time if E is still in workspace
     if isempty(testing_e)
-        [E, all_error] = find_E(length(theta),E0,F0,OA,OB,ll,el,ek,search,step);
+        %[E, all_error] = find_E(length(theta),E0,F0,OA,OB,ll,el,ek,search,step);
+        E = zeros(length(theta),3);
+        for i = 1:length(theta)
+            E(i,:)=E0;
+        end
+
     else
         E = testing_e;
     end

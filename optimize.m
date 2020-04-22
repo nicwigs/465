@@ -28,12 +28,14 @@ motion = kin4(input_struct, []);
 plot_results(motion)
 
 % Ouputs specified for HEEDS
+
 wheel_travel = motion.wheel_travel;
 track_variation = motion.track_variation;
-camber = motion.camber;
-caster = motion.caster;
-kpi_angle = motion.kpi_angle;
-toe = motion.toe;
+camber = rad2deg(motion.camber);
+caster = rad2deg(motion.caster);
+kpi_angle = rad2deg(motion.kpi_angle);
+toe = rad2deg(motion.toe);
+
 
 % Some constraints calculated for HEEDS
 wheel_rad_safe = 9/2;

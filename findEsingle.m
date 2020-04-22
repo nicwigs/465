@@ -29,11 +29,11 @@ function [best_cord, min_error,n] = findEsingle(E0,F0,OA,OB,ll,el,ek,search,step
                     best_cord(3) = ez;
                     min_error = error;
                     if error < 1e-10
-                        %return
                         disp(ex)
                         disp(ey)
                         disp(ez)
                         disp(error)
+                        %return
                     end  
                 end   
             end
