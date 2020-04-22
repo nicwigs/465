@@ -1,4 +1,5 @@
 
+tic
 % init values come from design output
 fsae = get_struct_from_sheet('points.xlsx','Front Suspension');
 % specify init values
@@ -22,7 +23,7 @@ camber_deg = fsae.init_opt_vals(14);
 input_struct = get_init_struct(theta_0, ll, ex, ey, ez,...
     bx,by,bz,cx,cy,cz,phi_deg,zeta_deg,camber_deg);
 
-motion = kin4(input_struct, E);
+motion = kin4(input_struct, []);
 
 plot_results(motion)
 
@@ -53,4 +54,6 @@ ubj_rad = wheel_rad_safe - ...
 
 % upper ball joint z must be larger than hub center
 ubj_positive = bz - input_struct.OH(3);
+
+toc
 

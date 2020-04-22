@@ -14,6 +14,8 @@ function [E, all_error] = find_E(n,E0,F0,OA,OB,ll,el,ek,search,step)
         while error > desired_error
             if eval_times > 0
                 disp("could not find in inital search space")
+                disp(error)
+                break %save time
             end
             surrounding = search + eval_times*50;
             [best_cord, error,~] = findEsingle(E0,F0,OA(i,1:3),OB(i,1:3),ll,el(i,1:3),ek(i,1:3),surrounding,step);
