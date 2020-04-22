@@ -26,4 +26,19 @@ motion = kin4(input_struct, E);
 
 plot_results(motion)
 
+% Some constraints calculated
+wheel_rad_safe = 9/2;
+% bx should be with 2 of ax, i.e track width direction upper and lower ball
+% joint should be somewhat close
+ball_joint_delta_x = abs(ex-ll*cos(deg2rad(theta_0)))-2;
 
+% Upper ball joint needs to be withing the radius of the wheel shell -
+% should be greater than 1
+lbj_rad = wheel_rad_safe^2 - ...
+    ((by-input_struct.OH(2))^2+(bz-input_struct.OH(3))^2);
+
+% Lower ball joint needs to be withing the radius of the wheel shell -
+% should be greater than 1
+ubj_rad = wheel_rad_safe - ...
+    ((0-input_struct.OH(2))^2+...
+    (ll*cos(deg2rad(theta_0))-input_struct.OH(3))^2)^(1/2);

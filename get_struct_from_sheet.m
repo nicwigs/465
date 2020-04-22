@@ -5,18 +5,24 @@ function init = get_struct_from_sheet(name,sheet)
     T = xlsread(name,sheet);
     
     init_camber_deg = -0.2;
+    % reads excel different if PC
+    if ispc()
+        table_offset = 12;
+    else
+        table_offset = 0;
+    end
     
     % y is trackwidth, x is wheel base
-    chas_lowfor = T(13,1:3);
-    chas_lowaft = T(14,1:3);
-    chas_upfor = T(15,1:3);
-    chas_upaft = T(16,1:3);
-    up_lowp = T(17,1:3);
-    up_upp = T(18,1:3);
-    chas_tie = T(19,1:3);
-    up_tie = T(20,1:3);
-    chas_pull = T(25,1:3);
-    up_pull = T(24,1:3);
+    chas_lowfor = T(13-table_offset,1:3);
+    chas_lowaft = T(14-table_offset,1:3);
+    chas_upfor = T(15-table_offset,1:3);
+    chas_upaft = T(16-table_offset,1:3);
+    up_lowp = T(17-table_offset,1:3);
+    up_upp = T(18-table_offset,1:3);
+    chas_tie = T(19-table_offset,1:3);
+    up_tie = T(20-table_offset,1:3);
+    chas_pull = T(25-table_offset,1:3);
+    up_pull = T(24-table_offset,1:3);
 
     % find a point on line connecting chas_lowaft and chas_lowfor that has same
     % x value as point A, so in plane. 
@@ -48,13 +54,18 @@ function init = get_struct_from_sheet(name,sheet)
     FO = chas_tie - O;  %chassis tie point rel to new origin
 
     Rw = 9;
+    
+    % find a point on line connecting lowp and uppp that has same
+    % z value as Rw
+    % line connecting points is (up_upp-up_lowp)*t + up_lowp = l
+    t_hub = (Rw-up_lowp(3))/(up_upp(3) - up_lowp(3));
+    point_hub = (up_upp-up_lowp)*t_hub+up_lowp;
 
-    % find a point on line connecting chas_lowaft and chas_lowfor that has same
-    % x value as point A, so in plane. 
-
-    val_up_AB = [0,0,Rw - up_lowp(3)];
+    %val_up_AB = [0,0,Rw - up_lowp(3)]
+    val_up_AB = point_hub - up_lowp;
     AH_vec = (dot(val_up_AB,AB)/norm(AB)^2)*AB;
     lh = norm(AH_vec);
+    OH = point_hub - O;
 
     % switch y and x coordinates
 
@@ -64,6 +75,7 @@ function init = get_struct_from_sheet(name,sheet)
     OB_s = swap_coords(OB);
     OC_s = swap_coords(OC);
     O_s = swap_coords(O);
+    OH_s = swap_coords(OH);
     
     init.EO = EO_s;
     init.FO = FO_s;
@@ -82,6 +94,7 @@ function init = get_struct_from_sheet(name,sheet)
     init.theta_0 = theta_0;
     init.Rw = Rw;
     init.O = O_s;
+    init.OH = OH_s;
     %theta_0, ll,ex,ey,ez,bx,by,bz,cx,cy,cz,phi_deg,zeta_deg,camber_deg
     init.init_opt_vals = [...
         theta_0,ll,EO_s(1),EO_s(2),EO_s(3),OB_s(1),OB_s(2),OB_s(3),OC_s(1),...

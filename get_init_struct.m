@@ -17,10 +17,18 @@ function init = get_init_struct(theta_0, ll,ex,ey,ez,bx,by,bz,cx,cy,cz,phi_deg,z
     CB = OB - OC;
     lu = norm(CB);
     
-    height_of_A = OA(3) + O(3);
-    val_up_AB = [0,0,Rw - height_of_A];
+    % find a point on line connecting lowp and uppp that has same
+    % z value as Rw
+    % line connecting points is (up_upp-up_lowp)*t + up_lowp = l
+    A = OA + O;
+    B = OB + O;
+    t_hub = (Rw-A(3))/(B(3) - A(3));
+    point_hub = (B-A)*t_hub+A;
+
+    val_up_AB = point_hub - A;
     AH_vec = (dot(val_up_AB,AB)/norm(AB)^2)*AB;
     lh = norm(AH_vec);
+    OH = point_hub - O;
     
     init.EO = EO;
     init.FO = FO;
@@ -39,6 +47,7 @@ function init = get_init_struct(theta_0, ll,ex,ey,ez,bx,by,bz,cx,cy,cz,phi_deg,z
     init.theta_0 = theta_0;
     init.Rw = Rw;
     init.O = O;
+    init.OH = OH;
 
 end
 
