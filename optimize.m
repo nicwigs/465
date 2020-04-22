@@ -29,16 +29,20 @@ plot_results(motion)
 % Some constraints calculated
 wheel_rad_safe = 9/2;
 % bx should be with 2 of ax, i.e track width direction upper and lower ball
-% joint should be somewhat close
-ball_joint_delta_x = abs(ex-ll*cos(deg2rad(theta_0)))-2;
+% joint should be somewhat close, should be negative
+ball_joint_delta_x = abs(bx-ll*cos(deg2rad(theta_0)))-2;
 
 % Upper ball joint needs to be withing the radius of the wheel shell -
-% should be greater than 1
-lbj_rad = wheel_rad_safe^2 - ...
-    ((by-input_struct.OH(2))^2+(bz-input_struct.OH(3))^2);
+% should be greater than 0
+lbj_rad = wheel_rad_safe - ...
+    ((by-input_struct.OH(2))^2+(bz-input_struct.OH(3))^2)^(1/2);
 
 % Lower ball joint needs to be withing the radius of the wheel shell -
-% should be greater than 1
+% should be greater than 0
 ubj_rad = wheel_rad_safe - ...
     ((0-input_struct.OH(2))^2+...
-    (ll*cos(deg2rad(theta_0))-input_struct.OH(3))^2)^(1/2);
+    (ll*sin(deg2rad(theta_0))-input_struct.OH(3))^2)^(1/2);
+
+% upper ball joint z must be larger than hub center
+ubj_positive = bz - input_struct.OH(3);
+
